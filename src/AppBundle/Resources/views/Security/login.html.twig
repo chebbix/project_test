@@ -1,0 +1,71 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $( document ).ready(function() {
+            $('#login-form').on('submit', function(event){
+                clearForm();
+                var email = $('#username').val();
+                var password = $('#password').val();
+
+                if (!email || !password) {
+                    event.preventDefault();
+                    showError('Username and password are required');
+                    return false;
+                }
+            });
+
+            function showError(msg) {
+                $('.feedback-error').css('display', 'block');
+                $('.feedback-error').html(msg);
+                $('#signin-form input').addClass('error');
+                $('#signin-form i').addClass('error');
+            }
+
+            function clearForm() {
+                $('#signin-form .feedback-error').css('display', 'none');
+                $('#signin-form .feedback-error').html('');
+                $('#signin-form input').removeClass('error');
+                $('#signin-form i').removeClass('error');
+            }
+        });
+    </script>
+
+{% endblock %}
+
+{% block body %}
+    <div class="container center">
+        <div class="col-sm-6 col-sm-offset-3 col-xs-12 login-box">
+            <div class="login col-sm-10 col-sm-offset-1 col-xs-12">
+                <div class="divider"></div>
+                <h2 class="text-center form-title">Login</h2>
+                <form action="{{ path('login_check') }}" id="login-form" role="form" method="post">
+                    <div class="form-group">
+                        <label for="email" class="sr-only">User</label>
+                        <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" placeholder="User">
+                        <i class="fa fa-user form-control-feedback" aria-hidden="true"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="sr-only">Password</label>
+                        <input type="password" class="form-control" id="password" name="_password" placeholder="Password">
+                        <i class="fa fa-lock form-control-feedback" aria-hidden="true"></i>
+                    </div>
+                    <div class="form-bottom">
+                        <button class="btn btn-lg btn-default btn-block" type="submit" id="submit">Login</button>
+                        {% if error %}
+                            <div class="feedback-error text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% else %}
+                            <div class="feedback-error text-center" style="display: none;"></div>
+                        {% endif %}
+                    </div>
+                </form>
+                <div class="divider" style="margin-top:30px;"></div>
+                <div class="text-center">
+                    <a href="{{ path('signin') }}" id="signin" class=""> Signin </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

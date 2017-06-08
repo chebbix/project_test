@@ -1,0 +1,58 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $( document ).ready(function() {
+            $('#login-form').on('submit', function(event){
+                clearForm();
+                var email = $('#username').val();
+                var password = $('#password').val();
+
+                if (!email || !password) {
+                    event.preventDefault();
+                    showError('Username and password are required');
+                    return false;
+                }
+            });
+
+            function showError(msg) {
+                $('.feedback-error').css('display', 'block');
+                $('.feedback-error').html(msg);
+                $('#signin-form input').addClass('error');
+                $('#signin-form i').addClass('error');
+            }
+
+            function clearForm() {
+                $('#signin-form .feedback-error').css('display', 'none');
+                $('#signin-form .feedback-error').html('');
+                $('#signin-form input').removeClass('error');
+                $('#signin-form i').removeClass('error');
+            }
+        });
+    </script>
+
+{% endblock %}
+
+{% block body %}
+    <div class="container center">
+        <div class="col-sm-6 col-sm-offset-3 col-xs-12 login-box">
+            <div class="login col-sm-10 col-sm-offset-1 col-xs-12">
+                <div class="divider"></div>
+                <h2 class="text-center form-title">Signin</h2>
+                {{ form_start(form) }}
+                    {{ form_row(form.username) }}
+                    {{ form_row(form.password.first) }}
+                    {{ form_row(form.password.second) }}
+
+                    <button type="submit">Register!</button>
+                {{ form_end(form) }}
+                <div class="divider" style="margin-top:30px;"></div>
+                <div class="text-center">
+                    <a href="{{ path('signin') }}" id="signin" class=""> Signin </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

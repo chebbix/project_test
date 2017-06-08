@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Entity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,8 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
+    const DEFAULT_ROLE = "ROLE_BASIC";
+    
     /**
      * @var int
      *
@@ -41,7 +44,11 @@ class User
      * @ORM\Column(name="salt", type="string", length=255)
      */
     private $salt;
-
+    
+    public function __construct()
+    {
+        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+    }
 
     /**
      * Get id
@@ -102,20 +109,6 @@ class User
     }
 
     /**
-     * Set salt
-     *
-     * @param string $salt
-     *
-     * @return User
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
      * Get salt
      *
      * @return string
@@ -123,6 +116,38 @@ class User
     public function getSalt()
     {
         return $this->salt;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        return array(self::DEFAULT_ROLE);
+    }
+
+    public function eraseCredentials()
+    {
+    }
+    
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password
+        ) = unserialize($serialized);
     }
 }
 
