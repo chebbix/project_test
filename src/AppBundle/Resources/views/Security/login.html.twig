@@ -18,15 +18,13 @@
             });
 
             function showError(msg) {
-                $('.feedback-error').css('display', 'block');
-                $('.feedback-error').html(msg);
+                $('.alert-danger').css('display', 'block').html(msg);
                 $('#signin-form input').addClass('error');
                 $('#signin-form i').addClass('error');
             }
 
             function clearForm() {
-                $('#signin-form .feedback-error').css('display', 'none');
-                $('#signin-form .feedback-error').html('');
+                $('.alert-danger').css('display', 'none').html('');
                 $('#signin-form input').removeClass('error');
                 $('#signin-form i').removeClass('error');
             }
@@ -41,6 +39,11 @@
             <div class="login col-sm-10 col-sm-offset-1 col-xs-12">
                 <div class="divider"></div>
                 <h2 class="text-center form-title">Login</h2>
+                {% if error %}
+                    <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% else %}
+                    <div class="alert alert-danger text-center" style="display: none;"></div>
+                {% endif %}
                 <form action="{{ path('login_check') }}" id="login-form" role="form" method="post">
                     <div class="form-group">
                         <label for="email" class="sr-only">User</label>
@@ -53,18 +56,11 @@
                         <i class="fa fa-lock form-control-feedback" aria-hidden="true"></i>
                     </div>
                     <div class="form-bottom">
-                        <button class="btn btn-lg btn-default btn-block" type="submit" id="submit">Login</button>
-                        {% if error %}
-                            <div class="feedback-error text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                        {% else %}
-                            <div class="feedback-error text-center" style="display: none;"></div>
-                        {% endif %}
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" id="submit">Login</button>
+                        <a href="{{ path('signin') }}" class="btn btn-lg btn-default btn-block" type="submit" id="submit">Sign In</a>
                     </div>
                 </form>
                 <div class="divider" style="margin-top:30px;"></div>
-                <div class="text-center">
-                    <a href="{{ path('signin') }}" id="signin" class=""> Signin </a>
-                </div>
             </div>
         </div>
     </div>

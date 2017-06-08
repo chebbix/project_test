@@ -1,0 +1,25 @@
+{
+  "name": "test_project",
+  "version": "1.0.0",
+  "description": "Symfony Standard Edition ========================",
+  "main": "web/app.php",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chebbix/project_test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chebbix/project_test/issues"
+  },
+  "homepage": "https://github.com/chebbix/project_test#readme",
+  "dependencies": {
+    "less": "^2.7.2"
+  }
+}

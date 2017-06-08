@@ -2,11 +2,16 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    {% stylesheets filter='less' output='css/main.css'
+        '@AppBundle/Resources/public/bootstrap/less/bootstrap.less'
+     %}
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet">
+    {% endstylesheets %}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/app/js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
 {% endblock %}
 
 {% block body %}

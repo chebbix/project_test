@@ -73,3 +73,13 @@ doctrine_migrations:
     namespace: Application\Migrations
     table_name: migration_versions
     name: Application Migrations
+    
+assetic:
+    debug: "%kernel.debug%"
+    use_controller: false
+    bundles: [AppBundle]
+    filters:
+        cssrewrite: ~
+        less:
+            node: %node_path%
+            node_paths: [%kernel.root_dir%/../node_modules]
